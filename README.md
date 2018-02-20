@@ -1,7 +1,7 @@
 
 WebServerAppChat
 
-This will be a Webserver based Chat for your local home. 
+This will be a Webserver based Chat for your local home.
 
 
 Getting Started
@@ -13,6 +13,8 @@ Prerequisites
 
 
 Installing
+npm install - to install all dependencies
+
 Run the Webserver on your local machine.
 
 
