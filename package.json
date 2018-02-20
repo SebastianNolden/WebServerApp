@@ -1,0 +1,24 @@
+{
+  "name": "webserverchat",
+  "version": "1.0.0",
+  "description": "This will be my first local Server with a Chat function",
+  "main": "webserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razShort/WebServerApp.git"
+  },
+  "keywords": [
+    "localChat",
+    "Webserver",
+    "Try"
+  ],
+  "author": "Sebastian Gruno",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/razShort/WebServerApp/issues"
+  },
+  "homepage": "https://github.com/razShort/WebServerApp#readme"
+}
