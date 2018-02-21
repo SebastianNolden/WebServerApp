@@ -1,10 +1,13 @@
 var express = require("express");
 var app = express();
+var file = require("fs");
 
 var path = require("path");
 
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
+
+users = [];
 
 //My port for localhost
 const PORT = 3000;
@@ -19,6 +22,18 @@ function dirChangeForMainFolder() {
 }
 var mainDirName = dirChangeForMainFolder();
 
+function searchUsersForIdReturnId(id) {
+	let userPosition = -1;
+
+	for (var i = 0; i < users.length; i++) {
+		if (users[i].id === id) {
+			userPosition = i;
+		}
+	}
+	return userPosition;
+}
+
+// files for Front End
 app.use(express.static(path.join(mainDirName, "Style")));
 app.use(express.static(path.join(mainDirName, "Scripts")));
 
@@ -30,22 +45,39 @@ app.get("/", function(req, res) {
 //https://www.youtube.com/watch?v=tHbCkikFfDE
 // scheint die Schnittstelle zum Senden von Nachrichten und so zu sein!
 io.sockets.on("connection", function(socket) {
-	console.log("A User connected to the Chat.");
+	let inChat = false;
+	users.push({ id: socket.id, name: "temp" });
+	console.log("Someone entered the Site" + inChat);
 
 	//Disconnect
 	socket.on("disconnect", function() {
-		console.log("A User disconnected.");
+		if (!inChat) {
+			console.log(`Someone left the Site`);
+		} else {
+			var name = users[searchUsersForIdReturnId(socket.id)]["name"];
+			io.emit("chat message", `${name} left the Chat.`);
+		}
 	});
 
 	socket.on("chat message", function(msg) {
 		//console.log("message: " + msg);
-		io.emit("chat message", msg);
+		var name = users[searchUsersForIdReturnId(socket.id)]["name"];
+		// console.log(newMsg);
+		io.emit("chat message", msg, name);
 	});
 
-	// man kann wohl auch mehrmals das gleiche Event abfangen und bearbeiten
-	// io.sockets.on("connection", function(socket) {
-	// 	socket.on("chat message", function(msg) {
-	// 		console.log("message: " + msg);
-	// 		io.emit("chat message", msg);
-	// 	});
+	socket.on("login Name", function(name) {
+		users.push({ id: socket.id, name: name });
+		io.emit("chat message", `${name} entered the Chat.`);
+		inChat = true;
+		// console.log(users);
+	});
 });
+
+// man kann wohl auch mehrmals das gleiche Event abfangen und bearbeiten
+// io.sockets.on("connection", function(socket) {
+// 	socket.on("chat message", function(msg) {
+// 		console.log("message: " + msg);
+// 		io.emit("chat message", msg);
+// 	});
+// });

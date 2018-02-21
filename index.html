@@ -11,10 +11,25 @@
 <script src="/serverCom.js"></script>
 
 <body>
-  <ul id="messages"></ul>
-  <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
+
+  <form id="login">
+    <div id=loginText>
+      Geben Sie einen Namen ein um den Chat zu starten:
+    </div>
+    <input id="loginInput" placeholder="Name" autocomplete="off" />
+    <!-- <input id="loginButton" type="submit" value="Send" /> -->
+    <button id="loginButton">Send</button>
   </form>
+
+
+  <div id="chat">
+    <ul id="messages"></ul>
+    <form id="chatform">
+      <input id="m" autocomplete="off" />
+      <button id="chatButton">Send</button>
+    </form>
+  </div>
+
 </body>
 
 </html>

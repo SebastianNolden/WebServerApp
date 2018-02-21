@@ -30,6 +30,25 @@ form button {
 	padding: 10px;
 }
 
+#chat {
+	display: none;
+}
+
+#login {
+	padding-top: 50px;
+	text-align: center;
+	display: block;
+}
+
+#loginText {
+	font: 16px Helvetica, Arial;
+	color: white;
+}
+
+#loginInput {
+	width: 150px;
+}
+
 #messages {
 	list-style-type: none;
 	margin: 0;
