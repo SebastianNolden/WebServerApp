@@ -47,7 +47,7 @@ app.get("/", function(req, res) {
 io.sockets.on("connection", function(socket) {
 	let inChat = false;
 	users.push({ id: socket.id, name: "temp" });
-	console.log("Someone entered the Site" + inChat);
+	console.log("Someone entered the Site");
 
 	//Disconnect
 	socket.on("disconnect", function() {
@@ -55,7 +55,7 @@ io.sockets.on("connection", function(socket) {
 			console.log(`Someone left the Site`);
 		} else {
 			var name = users[searchUsersForIdReturnId(socket.id)]["name"];
-			io.emit("chat message", `${name} left the Chat.`);
+			io.emit("chat message inform", `${name} left the Chat.`);
 		}
 	});
 
@@ -68,7 +68,7 @@ io.sockets.on("connection", function(socket) {
 
 	socket.on("login Name", function(name) {
 		users.push({ id: socket.id, name: name });
-		io.emit("chat message", `${name} entered the Chat.`);
+		io.emit("chat message inform", `${name} entered the Chat.`);
 		inChat = true;
 		// console.log(users);
 	});
