@@ -1,6 +1,6 @@
 // ToDo: Add more protocolls!
 function searchForProtocolInLink(link) {
-	if (link.search("http://") === -1) {
+	if (link.search("http://") === -1 || link.search("https://") === -1) {
 	}
 }
 
@@ -17,36 +17,39 @@ $(function() {
 
 	//adds the message on the webpage
 	socket.on("chat message", function(msg, name) {
-		//ToDo: füge eine Box für den Namen neben die Nachricht hinzu.
-		if (msg.search("www.") === -1) {
-			$("#messages").prepend(
-				$("<div 'class=wrapperForText'>").html(
-					'<div class="nameBeforeMessage">' +
-						name +
-						"</div>" +
-						'<div class="textMsg">' +
-						msg +
-						"</div>"
-				)
+		let fullMessage = '<div class="nameBeforeMessage">' + name + "</div>";
 
-				// $("<div class='nameBeforeMessage'>").text(name),
-				// $("<div class='textMsg'>").text(msg)
-			);
-			// $("#messages").prepend($("<div class='nameBeforeMessage'>").text(name));
+		//ToDo: füge eine Box für den Namen neben die Nachricht hinzu. - Nur eine Box mit Name und dann Nachricht!
+		if (msg.search("www.") === -1) {
+			fullMessage += '<div class="textMsg">' + msg + "</div>";
 		} else if (msg.search("http://") === -1) {
-			$("#messages").append(
-				$("<li>").html('<a href="http://' + msg + '">' + msg + "</a>")
-			);
+			fullMessage +=
+				'<div class="textMsg">' +
+				'<a href="http://' +
+				msg +
+				'">' +
+				msg +
+				"</a>" +
+				"</div>";
 		} else {
-			$("#messages").append(
-				$("<li>").html('<a href="' + msg + '">' + msg + "</a>")
-			);
+			fullMessage +=
+				'<div class="textMsg">' +
+				'<a href="' +
+				msg +
+				'">' +
+				msg +
+				"</a>" +
+				"</div>";
 		}
+
+		//send the fullMessage
+		$("#messages").prepend($('<div id="wrapperForText">').html(fullMessage));
 	});
 
 	//Chatnotification
 	socket.on("chat message inform", function(msg) {
-		$("#messages").prepend($("<div class='textMsg'>").text(msg));
+		var fullMessage = "<div class='textMsg'>" + msg + "</div>";
+		$("#messages").prepend($("<div id=wrapperForText>").html(fullMessage));
 	});
 
 	//login

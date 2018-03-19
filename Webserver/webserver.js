@@ -1,11 +1,11 @@
-var express = require("express");
-var app = express();
-var file = require("fs");
+const express = require("express");
+const app = express();
+const file = require("fs");
 
-var path = require("path");
+const path = require("path");
 
-var server = require("http").createServer(app);
-var io = require("socket.io").listen(server);
+const server = require("http").createServer(app);
+const io = require("socket.io").listen(server);
 
 users = [];
 
@@ -46,7 +46,6 @@ app.get("/", function(req, res) {
 // scheint die Schnittstelle zum Senden von Nachrichten und so zu sein!
 io.sockets.on("connection", function(socket) {
 	let inChat = false;
-	users.push({ id: socket.id, name: "temp" });
 	console.log("Someone entered the Site");
 
 	//Disconnect
@@ -54,21 +53,22 @@ io.sockets.on("connection", function(socket) {
 		if (!inChat) {
 			console.log(`Someone left the Site`);
 		} else {
-			var name = users[searchUsersForIdReturnId(socket.id)]["name"];
+			var usersID = users.findIndex(x => x.id === socket.id);
+			var name = users[usersID]["name"];
+			users.splice(usersID, 1);
 			io.emit("chat message inform", `${name} left the Chat.`);
 		}
 	});
 
 	socket.on("chat message", function(msg) {
-		//console.log("message: " + msg);
 		var name = users[searchUsersForIdReturnId(socket.id)]["name"];
-		// console.log(newMsg);
 		io.emit("chat message", msg, name);
 	});
 
 	socket.on("login Name", function(name) {
 		users.push({ id: socket.id, name: name });
 		io.emit("chat message inform", `${name} entered the Chat.`);
+		console.log(`${name} entered the Chatsystem.`);
 		inChat = true;
 		// console.log(users);
 	});
