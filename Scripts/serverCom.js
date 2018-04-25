@@ -64,7 +64,7 @@ $(function() {
 
 	//Chatnotification
 	socket.on("chat message inform", function(msg) {
-		var fullMessage = "<div class='textMsg'>" + msg + "</div>";
+		var fullMessage = "<div class='textMsg'>" + date + " " + msg + "</div>";
 		$("#messages").prepend($("<div id=wrapperForText>").html(fullMessage));
 	});
 
