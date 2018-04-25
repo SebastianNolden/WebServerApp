@@ -12,6 +12,10 @@ function SwitchLoginAndChat() {
 // this will be called when the dom is ready
 $(function() {
 	var socket = io();
+	var date = new Date().toLocaleTimeString("de-DE", {
+		hour: "numeric",
+		minute: "numeric"
+	});
 
 	//Chat
 	//sends the text to the server
@@ -23,7 +27,9 @@ $(function() {
 
 	//adds the message on the webpage
 	socket.on("chat message", function(msg, name) {
-		let fullMessage = '<div class="nameBeforeMessage">' + name + "</div>";
+		console.log(date);
+		let fullMessage =
+			'<div class="nameBeforeMessage">' + name + " - " + date + ":" + "</div>";
 
 		//ToDo: füge eine Box für den Namen neben die Nachricht hinzu. - Nur eine Box mit Name und dann Nachricht!
 		if (
@@ -58,7 +64,7 @@ $(function() {
 
 	//Chatnotification
 	socket.on("chat message inform", function(msg) {
-		var fullMessage = "<div class='textMsg'>" + msg + "</div>";
+		var fullMessage = "<div class='textMsg'>" + date + " " + msg + "</div>";
 		$("#messages").prepend($("<div id=wrapperForText>").html(fullMessage));
 	});
 
