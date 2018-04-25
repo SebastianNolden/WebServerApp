@@ -46,12 +46,12 @@ app.get("/", function(req, res) {
 // scheint die Schnittstelle zum Senden von Nachrichten und so zu sein!
 io.sockets.on("connection", function(socket) {
 	let inChat = false;
-	console.log("Someone entered the Site");
+	//console.log("Someone entered the Site");
 
 	//Disconnect
 	socket.on("disconnect", function() {
 		if (!inChat) {
-			console.log(`Someone left the Site`);
+			//console.log(`Someone left the Site`);
 		} else {
 			var usersID = users.findIndex(x => x.id === socket.id);
 			var name = users[usersID]["name"];
